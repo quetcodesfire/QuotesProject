@@ -2,34 +2,25 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { styled } from '@shipt/react-native-tachyons';
 import { QuoteNavigationButton } from './QuoteNavigationButton';
+import { useFetchQuotes } from '../hooks/useFetchQuotes';
 
-const Container = styled(View)``;
-const Quote = styled(Text)``;
-const Author = styled(Text)``;
+const Container = styled(View)`mt7 mh2 ba`;
+const Quote = styled(Text)`mt3 ml3`;
+const Author = styled(Text)`mt2 ml7`;
 
 export function DisplayQuote() {
-  const testQuotes = [
-    {
-      q: 'Lack of emotion causes lack of progress and lack of motivation.',
-      a: 'Tony Robbins',
-      i: 'https://zenquotes.io/img/tony-robbins.jpg',
-      c: '63',
-      h: '<blockquote>&ldquo;Lack of emotion causes lack of progress and lack of motivation.&rdquo; &mdash; <footer>Tony Robbins</footer></blockquote>'
-    },
-    {
-      q: 'With great power comes great responsibility',
-      a: 'Ben Parker',
-      i: 'https://zenquotes.io/img/tony-robbins.jpg',
-      c: '38',
-      h: '<blockquote>&ldquo;With great power comes great responsibility&rdquo; &mdash; <footer>Ben Parker</footer></blockquote>'
-    }
-  ];
+  const { data: quotes, isLoading } = useFetchQuotes();
+  console.log(quotes);
 
-  return (
+  if (isLoading) {
+    return <Text>...Loading</Text>;
+  }
+
+  return quotes?.map(quote => (
     <Container>
-      <Quote>{testQuotes[1].q}</Quote>
-      <Author>{testQuotes[1].a}</Author>
-      <QuoteNavigationButton type="next" onPress={() => console.log('pressed')} />
+      <Quote>{quote.q}</Quote>
+      <Author>- {quote.a}</Author>
+      <QuoteNavigationButton type="next" onPress={() => console.log('pressed next')} />
     </Container>
-  );
+  ));
 }

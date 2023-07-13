@@ -33,6 +33,7 @@ export function DisplayQuote() {
 
   const isPrevDisabled = quoteIndex === 0 ? true : false;
   const isNextDisabled = quoteIndex === quotes.length - 1 ? true : false;
+  // const isNextDisabled = false;
   const isFavoriteDisabled = isLoading;
   if (isLoading) {
     return <Text>...Loading</Text>;

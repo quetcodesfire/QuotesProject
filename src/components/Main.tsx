@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { AddQuoteForm } from './AddQuote';
+import { DisplayQuote } from './DisplayQuote';
 
 export function Main() {
   return (
-    <View>
-      <Text>quotes</Text>
-    </View>
+    <>
+      <DisplayQuote />
+      <AddQuoteForm />
+    </>
   );
 }

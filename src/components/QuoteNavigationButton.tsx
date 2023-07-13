@@ -4,9 +4,9 @@ import { Button } from 'react-native';
 
 type QuoteNavigationButtonProps = {
   type: string;
+  onPress: () => void;
   accessibilityLabel?: string;
   disabled?: boolean;
-  onPress?: () => void;
 };
 
 export function QuoteNavigationButton({ type, disabled = false, onPress }: QuoteNavigationButtonProps) {

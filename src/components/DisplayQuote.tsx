@@ -4,7 +4,7 @@ import { styled } from '@shipt/react-native-tachyons';
 import { QuoteNavigationButton } from './QuoteNavigationButton';
 import { FavoriteButton } from './FavoriteButton';
 import { useFetchQuotes } from '../hooks/useFetchQuotes';
-// import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Container = styled(View, { height: 256 })`mt7 mh2 ba`;
 const Quote = styled(Text)`mt5 ml3`;
@@ -15,7 +15,7 @@ export function DisplayQuote() {
   const { data: quotes, isLoading } = useFetchQuotes();
   const [quoteIndex, setQuoteIndex] = useState(0);
   // const [favorite, setFavorite] = useState(false);
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const nextQuote = () => {
     setQuoteIndex(prevIndex => prevIndex + 1);
@@ -27,7 +27,7 @@ export function DisplayQuote() {
 
   const favoriteQuote = () => {
     // setFavorite(true);
-    // queryClient.setQueryData('favoriteQuote', quotes[quoteIndex]);
+    queryClient.setQueryData(['favoriteQuote'], quotes[quoteIndex]);
     console.log('this quote is a favorite');
   };
 

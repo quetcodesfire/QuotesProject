@@ -6,10 +6,17 @@ import { FavoriteButton } from './FavoriteButton';
 import { useFetchQuotes } from '../hooks/useFetchQuotes';
 import { useQueryClient } from '@tanstack/react-query';
 
-const Container = styled(View, { height: 256 })`mt7 mh2 ba`;
-const Quote = styled(Text)`mt5 ml3`;
+const Container = styled(View, { height: 256 })`mt6 mh2 ba`;
+const QuoteText = styled(Text)`mt5 ml3`;
 const Author = styled(Text)`mt2 ml7`;
 const ButtonsContainer = styled(View)`flx-row jcc mt4`;
+
+type Quote = {
+  a: string;
+  c: string;
+  h: string;
+  q: string;
+};
 
 export function DisplayQuote() {
   const { data: quotes, isLoading } = useFetchQuotes();
@@ -26,22 +33,38 @@ export function DisplayQuote() {
   };
 
   const favoriteQuote = () => {
-    // setFavorite(true);
-    queryClient.setQueryData(['favoriteQuote'], quotes[quoteIndex]);
-    console.log('this quote is a favorite');
+    console.log('clicked');
+    // first run will be undefined, need to return quotes[quoteIndex] instead of adding it
+    const existingFavorites: Quote[] | undefined = queryClient.getQueryData(['favoriteQuote']);
+    console.log(existingFavorites);
+    // if existingFavorites is undefined make updatedFavorites
+    // an array with the quote that was favorited
+    // if existingFavorites is Quote[] then add the new quote
+    let updatedFavorites: Quote[];
+    if (existingFavorites === undefined) {
+      updatedFavorites = [quotes[quoteIndex]];
+      console.log('updatedFavorites', updatedFavorites);
+    } else {
+      updatedFavorites = [...existingFavorites, quotes[quoteIndex]];
+      console.log('else updatedFavorites', updatedFavorites);
+    }
+    // const updatedFavorites = existingFavorites ? existingFavorites.concat([quotes[quoteIndex]]) : [quotes[quoteIndex]];
+    // console.log(updatedFavorites);
+    queryClient.setQueryData(['favoriteQuote'], updatedFavorites);
   };
 
   const isPrevDisabled = quoteIndex === 0 ? true : false;
-  const isNextDisabled = quoteIndex === quotes.length - 1 ? true : false;
-  // const isNextDisabled = false;
+  // const isNextDisabled = quoteIndex === quotes.length - 1 ? true : false;
+  const isNextDisabled = false;
   const isFavoriteDisabled = isLoading;
+
   if (isLoading) {
     return <Text>...Loading</Text>;
   }
 
   return (
     <Container>
-      <Quote>{quotes[quoteIndex].q}</Quote>
+      <QuoteText>{quotes[quoteIndex].q}</QuoteText>
       <Author>- {quotes[quoteIndex].a}</Author>
       <ButtonsContainer>
         <QuoteNavigationButton type="back" onPress={prevQuote} disabled={isPrevDisabled} />

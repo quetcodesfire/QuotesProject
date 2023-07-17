@@ -7,7 +7,7 @@ type FavoriteButtonProps = {
   accessibilityLabel?: string;
   disabled?: boolean;
 };
-export function FavoriteButton({ type = 'favorite', disabled = false, onPress }: FavoriteButtonProps) {
+export function FavoriteButton({ type = 'Favorite', disabled = false, onPress }: FavoriteButtonProps) {
   const accessibilityLabelText = 'Favorite Button';
   return <Button title={type} disabled={disabled} onPress={onPress} accessibilityLabel={accessibilityLabelText} />;
 }

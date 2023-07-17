@@ -39,20 +39,23 @@ export function DisplayQuote() {
 
   const isFavoriteDisabled = isLoading;
 
-  if (isLoading) {
-    return <Text>{DISPLAY_QUOTES.LOADING}</Text>;
-  }
-
   return (
-    <Container>
-      <Title>{DISPLAY_QUOTES.TITLE}</Title>
-      <QuoteText>{quotes[quoteIndex].q}</QuoteText>
-      <Author>- {quotes[quoteIndex].a}</Author>
-      <ButtonsContainer>
-        <QuoteNavigationButton type="back" onPress={prevQuote} disabled={isPrevDisabled} />
-        <QuoteNavigationButton type="next" onPress={nextQuote} disabled={isNextDisabled} />
-        <FavoriteButton type="Favorite" onPress={favoriteQuote} disabled={isFavoriteDisabled} />
-      </ButtonsContainer>
-    </Container>
+    <>
+      {isLoading && (
+        <Container>
+          <Text>{DISPLAY_QUOTES.LOADING}</Text>
+        </Container>
+      )}
+      <Container>
+        <Title>{DISPLAY_QUOTES.TITLE}</Title>
+        <QuoteText>{quotes[quoteIndex].q}</QuoteText>
+        <Author>- {quotes[quoteIndex].a}</Author>
+        <ButtonsContainer>
+          <QuoteNavigationButton type="back" onPress={prevQuote} disabled={isPrevDisabled} />
+          <QuoteNavigationButton type="next" onPress={nextQuote} disabled={isNextDisabled} />
+          <FavoriteButton type="Favorite" onPress={favoriteQuote} disabled={isFavoriteDisabled} />
+        </ButtonsContainer>
+      </Container>
+    </>
   );
 }

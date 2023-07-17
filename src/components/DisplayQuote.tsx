@@ -6,6 +6,7 @@ import { FavoriteButton } from './FavoriteButton';
 import { useFetchQuotes } from '../hooks/useFetchQuotes';
 import { useQueryClient } from '@tanstack/react-query';
 import { useQuoteIndex } from '../hooks/useQuoteIndex';
+import { DISPLAY_QUOTES } from '../constants/constants';
 
 const Container = styled(View, { height: 288 })`mt6 mh2 ba`;
 const Title = styled(Text)`flx-row asc mt4 f3`;
@@ -39,12 +40,12 @@ export function DisplayQuote() {
   const isFavoriteDisabled = isLoading;
 
   if (isLoading) {
-    return <Text>...Loading</Text>;
+    return <Text>{DISPLAY_QUOTES.LOADING}</Text>;
   }
 
   return (
     <Container>
-      <Title>Quotes</Title>
+      <Title>{DISPLAY_QUOTES.TITLE}</Title>
       <QuoteText>{quotes[quoteIndex].q}</QuoteText>
       <Author>- {quotes[quoteIndex].a}</Author>
       <ButtonsContainer>

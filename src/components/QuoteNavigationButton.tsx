@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-native';
-// import { styled } from '@shipt/react-native-tachyons';
+import { BUTTONS } from '../constants/constants';
 
 type QuoteNavigationButtonProps = {
   type: string;
@@ -13,13 +13,12 @@ export function QuoteNavigationButton({ type, disabled = false, onPress }: Quote
   let titleText = '';
   let accessibilityLabelText = '';
 
-  // add functionality to move to the next/previous quote in the array
   if (type === 'next') {
-    titleText = 'Next';
-    accessibilityLabelText = 'Next Button';
+    titleText = `${BUTTONS.NEXT}`;
+    accessibilityLabelText = `${BUTTONS.NEXT_BUTTON}`;
   } else if (type === 'back') {
-    titleText = 'Previous';
-    accessibilityLabelText = 'Back Button';
+    titleText = `${BUTTONS.PREVIOUS}`;
+    accessibilityLabelText = `${BUTTONS.BACK_BUTTON}`;
   }
 
   return <Button title={titleText} disabled={disabled} onPress={onPress} accessibilityLabel={accessibilityLabelText} />;

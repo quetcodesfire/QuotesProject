@@ -20,16 +20,20 @@ export function DisplayFavoriteQuotes() {
   });
   const { quoteIndex, nextQuote, prevQuote, isPrevDisabled, isNextDisabled } = useQuoteIndex(favoriteQuote);
 
-  if (!favoriteQuote) {
-    return <Text>{DISPLAY_FAVORITE_QUOTES.NO_FAVORITES}</Text>;
-  }
-
-  if (isLoading) {
-    return <Text>{DISPLAY_FAVORITE_QUOTES.LOADING}</Text>;
-  }
-
   return (
     <>
+      {isLoading && (
+        <Container>
+          <Title>{DISPLAY_FAVORITE_QUOTES.TITLE}</Title>
+          <Text>{DISPLAY_FAVORITE_QUOTES.LOADING}</Text>
+        </Container>
+      )}
+      {!favoriteQuote && !isLoading && (
+        <Container>
+          <Title>{DISPLAY_FAVORITE_QUOTES.TITLE}</Title>
+          <Text>{DISPLAY_FAVORITE_QUOTES.NO_FAVORITES}</Text>
+        </Container>
+      )}
       {favoriteQuote && (
         <Container>
           <Title>{DISPLAY_FAVORITE_QUOTES.TITLE}</Title>

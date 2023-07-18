@@ -1,11 +1,5 @@
 import { useState } from 'react';
-
-type Quote = {
-  a: string;
-  c: string;
-  h: string;
-  q: string;
-};
+import { Quote } from '../types/models';
 
 export const useQuoteIndex = (quotes: Quote[] | undefined) => {
   const [quoteIndex, setQuoteIndex] = useState(0);

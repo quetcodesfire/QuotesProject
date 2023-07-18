@@ -11,7 +11,7 @@ describe('<FavoriteButton />', () => {
     expect(screen.getByText('Favorite')).toBeTruthy();
   });
 
-  test('onPress function should run when clicked', () => {
+  test('the onPress function should run when clicked', () => {
     render(<FavoriteButton type="Favorite" disabled={false} onPress={onPress} />);
 
     fireEvent.press(screen.getByText('Favorite'));

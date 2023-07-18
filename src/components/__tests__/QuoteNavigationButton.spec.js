@@ -16,4 +16,6 @@ describe('<QuoteNavigationButton />', () => {
 
     expect(screen.getByText('Previous')).toBeTruthy();
   });
+
+  test('the onPress function should run when clicked', () => {});
 });

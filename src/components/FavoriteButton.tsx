@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-native';
+import { BUTTONS } from '../constants/constants';
 
 type FavoriteButtonProps = {
   type: string;
@@ -7,7 +8,7 @@ type FavoriteButtonProps = {
   accessibilityLabel?: string;
   disabled?: boolean;
 };
-export function FavoriteButton({ type = 'Favorite', disabled = false, onPress }: FavoriteButtonProps) {
-  const accessibilityLabelText = 'Favorite Button';
+export function FavoriteButton({ type = BUTTONS.FAVORITE, disabled = false, onPress }: FavoriteButtonProps) {
+  const accessibilityLabelText = BUTTONS.FAVORITE_BUTTON;
   return <Button title={type} disabled={disabled} onPress={onPress} accessibilityLabel={accessibilityLabelText} />;
 }

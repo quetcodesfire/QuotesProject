@@ -13,7 +13,7 @@ const Author = styled(Text)`mt2 ml7`;
 const ButtonsContainer = styled(View)`flx-row jcc mt4`;
 
 export function DisplayFavoriteQuotes() {
-  const { data: favoriteQuote, isLoading } = useQuery(['favoriteQuote'], () => {
+  const { data: favoriteQuote } = useQuery(['favoriteQuote'], () => {
     return fetch('/api/favoriteQuote')
       .then(res => res.json())
       .then(data => data.favoriteQuote);
@@ -23,8 +23,7 @@ export function DisplayFavoriteQuotes() {
   return (
     <Container>
       <Title>{DISPLAY_FAVORITE_QUOTES.TITLE}</Title>
-      {isLoading && <Text>{DISPLAY_FAVORITE_QUOTES.LOADING}</Text>}
-      {!favoriteQuote && !isLoading && <Text>{DISPLAY_FAVORITE_QUOTES.NO_FAVORITES}</Text>}
+      {!favoriteQuote && <Text>{DISPLAY_FAVORITE_QUOTES.NO_FAVORITES}</Text>}
       {favoriteQuote && (
         <>
           <Quote>{favoriteQuote[quoteIndex].q}</Quote>

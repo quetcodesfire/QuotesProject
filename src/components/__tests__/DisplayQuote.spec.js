@@ -1,16 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import { DisplayQuote } from '../DisplayQuote';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query/';
-import { useFetchQuotes } from '../../hooks/useFetchQuotes';
+import { BUTTONS } from '../../constants/constants';
 
 jest.mock('../../hooks/useFetchQuotes', () => ({
   useFetchQuotes: () => ({
     data: [
       { q: 'Test Quote 1', a: 'Test Author 1' },
       { q: 'Test Quote 2', a: 'Test Author 2' }
-    ],
-    isLoading: false
+    ]
   })
 }));
 
@@ -33,16 +32,45 @@ describe('<DisplayQuote />', () => {
     );
   };
 
-  test('should display the quote and author', () => {
+  test('should display a quote and author when the page is rendered', () => {
     renderComponent();
 
     expect(screen.getByText('Test Quote 1')).toBeTruthy();
     expect(screen.getByText('- Test Author 1')).toBeTruthy();
   });
-  test('should return an array with one quote if existingFavorites is undefined', () => {});
-  test('should add new quote to existing favorite quotes', () => {});
-  test('should display loading text if quotes are loading', () => {});
-  test('should move to the next quote if the  next button is pressed', () => {});
-  test('should move to the previous quote if the previous button is pressed', () => {});
-  test('should add a quote to favorites if the favorite button is pressed', () => {});
+
+  test('the next and previous quote button should navigate correctly', async () => {
+    renderComponent();
+
+    await fireEvent.press(screen.getByText(BUTTONS.NEXT));
+
+    expect(screen.getByText('Test Quote 2')).toBeTruthy();
+    expect(screen.getByText('- Test Author 2')).toBeTruthy();
+
+    await fireEvent.press(screen.getByText(BUTTONS.PREVIOUS));
+
+    expect(screen.getByText('Test Quote 1')).toBeTruthy();
+    expect(screen.getByText('- Test Author 1')).toBeTruthy();
+  });
+  test('should add a quote to favorites if the favorite button is pressed', async () => {
+    renderComponent();
+
+    await fireEvent.press(screen.getByText(BUTTONS.FAVORITE));
+    const favoriteQuotes = await queryClient.getQueryData(['favoriteQuote']);
+
+    expect(favoriteQuotes).toHaveLength(1);
+    expect(favoriteQuotes[0].q).toEqual('Test Quote 1');
+    expect(favoriteQuotes[0].a).toEqual('Test Author 1');
+    console.log('favoriteQuotes', favoriteQuotes);
+    await fireEvent.press(screen.getByText(BUTTONS.NEXT));
+
+    await fireEvent.press(screen.getByText(BUTTONS.FAVORITE));
+    // need to figure out a way to update favoriteQuotes to update when a new quote is added
+    const favoriteQuotes2 = await queryClient.getQueryData(['favoriteQuote']);
+    screen.debug(null, Number.MAX_SAFE_INTEGER);
+    expect(favoriteQuotes2).toHaveLength(2);
+    console.log('favoriteQuotes2', favoriteQuotes2);
+    expect(favoriteQuotes2[1].q).toEqual('Test Quote 2');
+    expect(favoriteQuotes2[1].a).toEqual('Test Author 2');
+  });
 });

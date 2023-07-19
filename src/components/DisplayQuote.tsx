@@ -20,7 +20,7 @@ export function DisplayQuote() {
   const { data: quotes, isLoading } = useFetchQuotes();
   const { quoteIndex, nextQuote, prevQuote, isPrevDisabled, isNextDisabled } = useQuoteIndex(quotes);
 
-  const favoriteQuote = () => {
+  const favoriteQuote = async () => {
     const existingFavorites: Quote[] | undefined = queryClient.getQueryData(['favoriteQuote']);
     let updatedFavorites: Quote[];
     if (existingFavorites === undefined) {
@@ -28,7 +28,7 @@ export function DisplayQuote() {
     } else {
       updatedFavorites = [...existingFavorites, quotes[quoteIndex]];
     }
-    queryClient.setQueryData(['favoriteQuote'], updatedFavorites);
+    await queryClient.setQueryData(['favoriteQuote'], updatedFavorites);
   };
 
   const isFavoriteDisabled = isLoading;
@@ -36,7 +36,6 @@ export function DisplayQuote() {
   return (
     <Container>
       <Title>{DISPLAY_QUOTES.TITLE}</Title>
-      {isLoading && <Text>{DISPLAY_QUOTES.LOADING}</Text>}
       <QuoteText>{quotes[quoteIndex].q}</QuoteText>
       <Author>- {quotes[quoteIndex].a}</Author>
       <ButtonsContainer>

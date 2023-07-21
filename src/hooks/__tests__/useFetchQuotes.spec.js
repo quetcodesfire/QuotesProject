@@ -1,31 +1,40 @@
-import { renderHook } from '@testing-library/react-native';
-import axios from 'axios';
+import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react-native';
 import { useFetchQuotes } from '../useFetchQuotes';
 
-jest.mock('axios');
+const mockResponse = [
+  { q: 'Test Quote 1', a: 'Test Author 1' },
+  { q: 'Test Quote 2', a: 'Test Author 2' }
+];
+
+jest.mock('axios', () => ({
+  get: jest.fn(() => Promise.resolve({ data: mockResponse }))
+}));
 
 describe('useFetchQuotes', () => {
   it('should fetch quotes from the API', async () => {
-    // Set up mock response from the API
-    const mockResponse = [
-      { q: 'Test Quote 1', a: 'Test Author 1' },
-      { q: 'Test Quote 2', a: 'Test Author 2' }
-    ];
-    axios.get.mockResolvedValue({ data: mockResponse });
+    const queryClient = new QueryClient();
 
-    // Call the hook
-    const { result, waitForNextUpdate } = renderHook(() => useFetchQuotes());
+    const { result } = renderHook(() => useFetchQuotes(), {
+      wrapper: ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    });
 
-    // Check that isLoading is true initially
     expect(result.current.isLoading).toBe(true);
 
-    // // // Wait for the hook to finish loading
-    await waitForNextUpdate();
+    jest.mock('@tanstack/react-query', () => {
+      const original = jest.requireActual('@tanstack/react-query');
+      return {
+        ...original,
+        useQuery: () => ({ error: {}, data: [] })
+      };
+    });
 
-    // // // Check that isLoading is now false
-    expect(result.current.isLoading).toBe(false);
+    await waitFor(() => {
+      console.log('write anything');
+      expect(result.current.isLoading).toBe(false);
+    });
 
-    // // // Check that the data returned from the API is correct
     expect(result.current.data).toEqual(mockResponse);
   });
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { DisplayQuote } from '../DisplayQuote';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query/';
-import { BUTTONS } from '../../constants/constants';
+import { BUTTONS, DISPLAY_QUOTES } from '../../constants/constants';
 
 jest.mock('../../hooks/useFetchQuotes', () => ({
   useFetchQuotes: () => ({
@@ -35,6 +35,7 @@ describe('<DisplayQuote />', () => {
   test('should display a quote and author when the page is rendered', () => {
     renderComponent();
 
+    expect(screen.getByText(DISPLAY_QUOTES.TITLE)).toBeTruthy();
     expect(screen.getByText('Test Quote 1')).toBeTruthy();
     expect(screen.getByText('- Test Author 1')).toBeTruthy();
   });
@@ -63,7 +64,6 @@ describe('<DisplayQuote />', () => {
     expect(favoriteQuotes[0].a).toEqual('Test Author 1');
     console.log('favoriteQuotes', favoriteQuotes);
     await fireEvent.press(screen.getByText(BUTTONS.NEXT));
-
     await fireEvent.press(screen.getByText(BUTTONS.FAVORITE));
     // need to figure out a way to update favoriteQuotes to update when a new quote is added
     const favoriteQuotes2 = await queryClient.getQueryData(['favoriteQuote']);

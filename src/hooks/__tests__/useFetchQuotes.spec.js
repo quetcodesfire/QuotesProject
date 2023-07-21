@@ -26,12 +26,11 @@ describe('useFetchQuotes', () => {
       const original = jest.requireActual('@tanstack/react-query');
       return {
         ...original,
-        useQuery: () => ({ error: {}, data: [] })
+        useQuery: () => ({ isLoading: false, error: {}, data: [] })
       };
     });
 
     await waitFor(() => {
-      console.log('write anything');
       expect(result.current.isLoading).toBe(false);
     });
 

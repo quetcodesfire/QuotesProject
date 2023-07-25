@@ -62,14 +62,14 @@ describe('<DisplayQuote />', () => {
     expect(favoriteQuotes).toHaveLength(1);
     expect(favoriteQuotes[0].q).toEqual('Test Quote 1');
     expect(favoriteQuotes[0].a).toEqual('Test Author 1');
-    console.log('favoriteQuotes', favoriteQuotes);
+    // console.log('favoriteQuotes', favoriteQuotes);
     await fireEvent.press(screen.getByText(BUTTONS.NEXT));
     await fireEvent.press(screen.getByText(BUTTONS.FAVORITE));
     // need to figure out a way to update favoriteQuotes to update when a new quote is added
     const favoriteQuotes2 = await queryClient.getQueryData(['favoriteQuote']);
-    screen.debug(null, Number.MAX_SAFE_INTEGER);
+    // screen.debug(null, Number.MAX_SAFE_INTEGER);
     expect(favoriteQuotes2).toHaveLength(2);
-    console.log('favoriteQuotes2', favoriteQuotes2);
+    // console.log('favoriteQuotes2', favoriteQuotes2);
     expect(favoriteQuotes2[1].q).toEqual('Test Quote 2');
     expect(favoriteQuotes2[1].a).toEqual('Test Author 2');
   });

@@ -13,5 +13,6 @@ export const BUTTONS = {
   FAVORITE: 'Favorite',
   NEXT_BUTTON: 'Next Button',
   BACK_BUTTON: 'Back Button',
-  FAVORITE_BUTTON: 'Favorite Button'
+  FAVORITE_BUTTON: 'Favorite Button',
+  UNFAVORITE_BUTTON: 'Unfavorite Button'
 };

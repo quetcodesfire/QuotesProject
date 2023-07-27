@@ -29,7 +29,9 @@ export function DisplayFavoriteQuotes() {
     if (existingFavorites !== undefined) {
       const filteredFavorites = existingFavorites.filter(quote => quote.q !== favoriteQuote[quoteIndex].q);
       updatedFavorites = filteredFavorites;
-      console.log('updatedFavorites', updatedFavorites);
+      if (quoteIndex === updatedFavorites.length) {
+        prevQuote();
+      }
       await queryClient.setQueryData(['favoriteQuote'], updatedFavorites);
     }
   };
